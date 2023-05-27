@@ -28,7 +28,7 @@ async function run() {
 
     const database = client.db("KidZoo");
     const storesToyCollection = database.collection("storesToy");
-
+    //storesToy
     app.get("/storesToy", async (req, res) => {
       const cursor = storesToyCollection.find();
       const result = await cursor.toArray();
