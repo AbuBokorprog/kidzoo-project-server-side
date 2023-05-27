@@ -42,7 +42,7 @@ async function run() {
       res.send(result);
     });
 
-    //Create Toy
+    //Create Toys
     const toyCollection = client.db("KidZoo").collection("toy");
 
     app.post("/toy", async (req, res) => {
