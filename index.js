@@ -7,8 +7,6 @@ const port = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
-//${process.env.NAME}
-//${process.env.PASS}
 
 const uri = `mongodb+srv://${process.env.NAME}:${process.env.PASS}@cluster0.kq57d4a.mongodb.net/?retryWrites=true&w=majority`;
 
@@ -24,25 +22,26 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    //await client.connect();
 
-    const database = client.db("KidZoo");
-    const storesToyCollection = database.collection("storesToy");
-    //storesToy
-    app.get("/storesToy", async (req, res) => {
-      const cursor = storesToyCollection.find();
-      const result = await cursor.toArray();
-      res.send(result);
-    });
-    //storesToy details
-    app.get("/storesToy/:id", async (req, res) => {
-      const id = req.params.id;
-      const query = { _id: new ObjectId(id) };
-      const result = await storesToyCollection.findOne(query);
-      res.send(result);
-    });
+    // const database = client.db("KidZoo");
+    // const storesToyCollection = database.collection("storesToy");
+    // //storesToy
+    // app.get("/storesToy", async (req, res) => {
+    //   const cursor = storesToyCollection.find();
+    //   const result = await cursor.toArray();
+    //   res.send(result);
+    // });
+    // //storesToy details
+    // app.get("/storesToy/:id", async (req, res) => {
+    //   const id = req.params.id;
+    //   const query = { _id: new ObjectId(id) };
+    //   const result = await storesToyCollection.findOne(query);
+    //   res.send(result);
+    // });
 
     //Create Toys
+
     const toyCollection = client.db("KidZoo").collection("toy");
 
     app.post("/toy", async (req, res) => {
