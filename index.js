@@ -51,11 +51,12 @@ async function run() {
       res.send(result);
     });
 
-    // app.get("/toy", async (req, res) => {
-    //   const cursor = toyCollection.find();
-    //   const result = await cursor.toArray();
-    //   res.send(result);
-    // });
+    app.get("/toy/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await toyCollection.findOne(query);
+      res.send(result);
+    });
 
     app.get("/toy", async (req, res) => {
       console.log(req.query);
@@ -71,6 +72,22 @@ async function run() {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await toyCollection.deleteOne(query);
+      res.send(result);
+    });
+
+    app.put("/toy/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const toy = req.body;
+      const updateDoc = {
+        $set: {
+          Price: toy.Price,
+          AvailableQuantity: toy.AvailableQuantity,
+          Description: toy.Description,
+        },
+      };
+      const result = await toyCollection.updateOne(query, updateDoc, options);
       res.send(result);
     });
 
