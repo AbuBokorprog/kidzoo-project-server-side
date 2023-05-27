@@ -58,12 +58,11 @@ async function run() {
     // });
 
     app.get("/toy", async (req, res) => {
-      //console.log(req.body);
+      console.log(req.query);
       let query = {};
-      if (req.query?.SellerName) {
-        query = { SellerName: req.query.SellerName };
+      if (req.query?.email) {
+        query = { email: req.query.email };
       }
-      //const cursor = toyCollection.find(query);
       const result = await toyCollection.find(query).toArray();
       res.send(result);
     });
