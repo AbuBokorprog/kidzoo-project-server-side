@@ -21,27 +21,6 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
-    // Connect the client to the server	(optional starting in v4.7)
-    //await client.connect();
-
-    // const database = client.db("KidZoo");
-    // const storesToyCollection = database.collection("storesToy");
-    // //storesToy
-    // app.get("/storesToy", async (req, res) => {
-    //   const cursor = storesToyCollection.find();
-    //   const result = await cursor.toArray();
-    //   res.send(result);
-    // });
-    // //storesToy details
-    // app.get("/storesToy/:id", async (req, res) => {
-    //   const id = req.params.id;
-    //   const query = { _id: new ObjectId(id) };
-    //   const result = await storesToyCollection.findOne(query);
-    //   res.send(result);
-    // });
-
-    //Create Toys
-
     const toyCollection = client.db("KidZoo").collection("toy");
 
     app.post("/toy", async (req, res) => {
@@ -63,7 +42,15 @@ async function run() {
       if (req.query?.email) {
         query = { email: req.query.email };
       }
-      const result = await toyCollection.find(query).toArray();
+
+      let sortOption = {};
+      if (req.query?.sort === "asc") {
+        sortOption = { Price: 1 }; // Sort in ascending order
+      } else if (req.query?.sort === "desc") {
+        sortOption = { Price: -1 }; // Sort in descending order
+      }
+
+      const result = await toyCollection.find(query).sort(sortOption).toArray();
       res.send(result);
     });
 
